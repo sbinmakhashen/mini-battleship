@@ -21,57 +21,63 @@ const selectedLocations = new Map();
 ////////      Functions     ////////
 ////////////////////////////////////
 function startGame() {
-	// const askToStart = rs.keyIn("Press any key to start the game.");
-	// console.log(askToStart);
+	const askToStart = rs.keyIn(`
+  Press any key to start the game.`);
+	console.log(askToStart);
 	console.log("");
+
 	// assigning both ships to random value
 	ship1 = grid[Math.floor(Math.random() * 9)];
-	ship1 = grid[Math.floor(Math.random() * 9)];
+	ship2 = grid[Math.floor(Math.random() * 9)];
+	//restart game if both ships were in the same location
+	if (ship1 === ship2) {
+		startGame();
+	}
 
-	console.log(`
-  ship1: ${ship1}
-  ship2: ${ship2}
-  `);
-	// run as long as both ships not destroyed
+	// // run as long as both ships not destroyed
 	while (!areShipsDestroyed) {
 		const locationToStrike = rs.question(
-			"Enter a location/number to strike ie'5': ",
+			"Enter a location/number between 0 and 9 to strike ie'5': ",
 			{
 				limit: /^[0-9]$/g,
 				limitMessage:
 					"Invalid character, please enter a number between 0 and 9",
 			}
 		);
+		console.log(locationToStrike);
+
 		location = Number(locationToStrike);
 
 		// check for any repetitive input
 		if (selectedLocations.has(location)) {
 			console.log(`You have already picked this location. Miss!
-      `);
+	    `);
+		} else if (
+			location !== ship1 &&
+			location !== ship2 &&
+			!selectedLocations.has(location)
+		) {
+			console.log(`You have missed!
+	    `);
 		}
 		// store the location the user input
 		i++;
 		selectedLocations.set(location, i);
 
-		console.log(locationToStrike);
-
 		//validation
 		if (location === ship1 && !isShip1Destroyed) {
 			console.log(`Hit. You have sunk the first battleship. 1 ship remaining.
-      `);
+	    `);
 			isShip1Destroyed = true;
 		} else if (location === ship2 && !isShip2Destroyed) {
 			console.log(
 				`Hit. You have sunk the second battleship. 1 ship remaining.
-        `
+	      `
 			);
 			isShip2Destroyed = true;
-		} else if (location !== (ship1 && ship2)) {
-			console.log(`You have missed!
-      `);
 		}
 		//end loop when both ships destroyed
-		if ((isShip1Destroyed && isShip2Destroyed) || ship1 === ship2) {
+		if (isShip1Destroyed && isShip2Destroyed) {
 			areShipsDestroyed = true;
 		}
 	}
@@ -86,8 +92,15 @@ function endGame() {
     You have destroyed all battleships. Would you like to play again? Y/N
     `,
 		{
-			limit: /^ny$/,
-			limitMessage: "Invalid character, please press n for no or y for yes",
+			limit: /^yn$/gi,
 		}
 	);
+
+	if (startOrEndGame) {
+		isShip1Destroyed = false;
+		isShip2Destroyed = false;
+		areShipsDestroyed = false;
+		selectedLocations.clear();
+		startGame();
+	}
 }
