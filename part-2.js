@@ -27,7 +27,7 @@ const locations = [
 	["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"],
 	["j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10"],
 ];
-console.log(`Locations =.length: ${locations.length}`);
+const locationArr = [];
 const selectedLocations = new Map();
 
 ////////////////////////////////////
@@ -39,35 +39,54 @@ function startGame() {
 	// console.log(askToStart);
 	console.log("");
 
-	// assigning 5 ships to random value
-	// twoUnitShip = grid[Math.floor(Math.random() * 9)];
-	// threeUnitShip1 = grid[Math.floor(Math.random() * 9)];
+	// assigning ships to random value or location
 	let randomTwoUnitShip = Math.floor(Math.random() * locations.length);
+
 	twoUnitShip = locations[randomTwoUnitShip][randomTwoUnitShip];
+	// twoUnitShip = null;
+	// twoUnitShip = 1523;
+	locationArr.push(twoUnitShip);
 
 	let randomThreeUnitShip1 = Math.floor(Math.random() * locations.length);
+
+	threeUnitShip1 = locations[randomThreeUnitShip1][randomThreeUnitShip1];
+	locationArr.push(threeUnitShip1);
+	// threeUnitShip1 = 53;
+	// threeUnitShip1 = 6;
+
 	let randomThreeUnitShip2 = Math.floor(Math.random() * locations.length);
 
-	threeUnitShip1 = location[Math.floor(Math.random() * location.length)];
-	threeUnitShip2 = location[Math.floor(Math.random() * location.length)];
-	// fourUnitShip = grid[Math.floor(Math.random() * 9)];
-	// fiveUnitShip = grid[Math.floor(Math.random() * 9)];
-	console.log(twoUnitShip);
+	threeUnitShip2 = locations[randomThreeUnitShip2][randomThreeUnitShip2];
+	// threeUnitShip2 = 4561;
+	locationArr.push(threeUnitShip2);
 
-	// console.log(`
-	//    twoUnitShip: ${twoUnitShip}
-	//    threeUnitShip1: ${threeUnitShip1}
-	//    threeUnitShip2: ${threeUnitShip2}
-	//    fourUnitShip: ${fourUnitShip}
-	//    fiveUnitShip: ${fiveUnitShip}
-	// `);
+	let randomFourUnitShip = Math.floor(Math.random() * locations.length);
 
-	//restart game if both ships were in the same location
-	// if (twoUnitShip === threeUnitShip1) {
-	// 	console.log("true");
-	// 	// startGame();
-	// }
+	fourUnitShip = locations[randomFourUnitShip][randomFourUnitShip];
+	// fourUnitShip = 4;
+	// fourUnitShip = 5132;
+	locationArr.push(fourUnitShip);
 
+	let randomFiveUnitShip = Math.floor(Math.random() * locations.length);
+
+	fiveUnitShip = locations[randomFiveUnitShip][randomFiveUnitShip];
+	// fiveUnitShip = 3;
+	locationArr.push(fiveUnitShip);
+
+	console.log(`
+	   twoUnitShip: ${twoUnitShip}
+	   threeUnitShip1: ${threeUnitShip1}
+	   threeUnitShip2: ${threeUnitShip2}
+	   fourUnitShip: ${fourUnitShip}
+	   fiveUnitShip: ${fiveUnitShip}
+	`);
+	console.log("locationArr:");
+	console.log(locationArr);
+	locationArr.forEach((randomVal, i, arr) => {
+		console.log(arr.indexOf(randomVal) === i);
+	});
+
+	//restart game if the any ships overlay or in the same location
 	// // run as long as both ships not destroyed
 	// while (!areShipsDestroyed) {
 	// 	const locationToStrike = rs.question(
