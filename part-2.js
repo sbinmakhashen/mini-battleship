@@ -4,11 +4,12 @@ const rs = require("readline-sync");
 ////////////////////////////////////
 ////////  GLOBAL VARIABLES ////////
 ////////////////////////////////////
-let twoUnitShip = 0,
-	threeUnitShip1 = 0,
-	threeUnitShip2 = 0,
-	fourUnitShip = 0,
-	fiveUnitShip = 0,
+
+let twoUnitShip = "",
+	threeUnitShip1 = "",
+	threeUnitShip2 = "",
+	fourUnitShip = "",
+	fiveUnitShip = "",
 	location = 0,
 	i = 0;
 
@@ -27,66 +28,59 @@ const locations = [
 	["i1", "i2", "i3", "i4", "i5", "i6", "i7", "i8", "i9", "i10"],
 	["j1", "j2", "j3", "j4", "j5", "j6", "j7", "j8", "j9", "j10"],
 ];
-const locationArr = [];
+let locationArr = [];
 const selectedLocations = new Map();
 
 ////////////////////////////////////
 ////////      Functions     ////////
 ////////////////////////////////////
-function startGame() {
-	// const askToStart = rs.keyIn(`
-	// Press any key to start the game.`);
-	// console.log(askToStart);
-	console.log("");
 
-	// assigning ships to random value or location
+// assigning ships to random value or location
+function assignRandomValues() {
 	let randomTwoUnitShip = Math.floor(Math.random() * locations.length);
 
 	twoUnitShip = locations[randomTwoUnitShip][randomTwoUnitShip];
-	// twoUnitShip = null;
-	// twoUnitShip = 1523;
 	locationArr.push(twoUnitShip);
 
 	let randomThreeUnitShip1 = Math.floor(Math.random() * locations.length);
 
 	threeUnitShip1 = locations[randomThreeUnitShip1][randomThreeUnitShip1];
 	locationArr.push(threeUnitShip1);
-	// threeUnitShip1 = 53;
-	// threeUnitShip1 = 6;
 
 	let randomThreeUnitShip2 = Math.floor(Math.random() * locations.length);
 
 	threeUnitShip2 = locations[randomThreeUnitShip2][randomThreeUnitShip2];
-	// threeUnitShip2 = 4561;
 	locationArr.push(threeUnitShip2);
 
 	let randomFourUnitShip = Math.floor(Math.random() * locations.length);
 
 	fourUnitShip = locations[randomFourUnitShip][randomFourUnitShip];
-	// fourUnitShip = 4;
-	// fourUnitShip = 5132;
 	locationArr.push(fourUnitShip);
 
 	let randomFiveUnitShip = Math.floor(Math.random() * locations.length);
 
 	fiveUnitShip = locations[randomFiveUnitShip][randomFiveUnitShip];
-	// fiveUnitShip = 3;
 	locationArr.push(fiveUnitShip);
 
-	console.log(`
-	   twoUnitShip: ${twoUnitShip}
-	   threeUnitShip1: ${threeUnitShip1}
-	   threeUnitShip2: ${threeUnitShip2}
-	   fourUnitShip: ${fourUnitShip}
-	   fiveUnitShip: ${fiveUnitShip}
-	`);
-	console.log("locationArr:");
-	console.log(locationArr);
 	locationArr.forEach((randomVal, i, arr) => {
-		console.log(arr.indexOf(randomVal) === i);
+		//restart function if the any ships overlay or in the same location
+		if (arr.indexOf(randomVal) !== i) {
+			locationArr = [];
+			assignRandomValues();
+		}
 	});
+}
+assignRandomValues();
 
-	//restart game if the any ships overlay or in the same location
+function startGame() {
+	// const askToStart = rs.keyIn(`
+	// Press any key to start the game.`);
+	// console.log(askToStart);
+	console.log("");
+
+	// spread ships in random locations
+	assignRandomValues();
+
 	// // run as long as both ships not destroyed
 	// while (!areShipsDestroyed) {
 	// 	const locationToStrike = rs.question(
