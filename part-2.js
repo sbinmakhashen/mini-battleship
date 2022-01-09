@@ -14,7 +14,12 @@ let twoUnitShip = "",
 	i = 0;
 
 let areShipsDestroyed = false,
-	startOrEndGame = false;
+	startOrEndGame = false,
+	isShip1Destroyed = false,
+	isShip2Destroyed = false,
+	isShip3Destroyed = false,
+	isShip4Destroyed = false,
+	isShip5Destroyed = false;
 
 const locations = [
 	["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10"],
@@ -72,22 +77,16 @@ function assignRandomValues() {
 }
 assignRandomValues();
 
+let remainingShips = locationArr.length;
+
 function startGame() {
-	// const askToStart = rs.keyIn(`
-	// Press any key to start the game.`);
-	// console.log(askToStart);
+	const askToStart = rs.keyIn(`
+	Press any key to start the game.`);
+	console.log(askToStart);
 	console.log("");
 
 	// spread ships in random locations
 	assignRandomValues();
-
-	console.log(`
-  twoUnitShip: ${twoUnitShip}
-  threeUnitShip1: ${threeUnitShip1}
-  threeUnitShip2: ${threeUnitShip2}
-  fourUnitShip: ${fourUnitShip}
-  fiveUnitShip: ${fiveUnitShip}
-  `);
 
 	// // run as long as ships not destroyed
 	while (!areShipsDestroyed) {
@@ -97,18 +96,18 @@ function startGame() {
 				limit: /^[a-j][1-9]|10$/gi,
 				limitMessage: `
 Invalid character, please start with a letter from a to j followed by a number from 1 to 10 ie'f6'
-		          `,
+			          `,
 			}
 		);
 
 		console.log(locationToStrike);
 
-		location = locationToStrike;
+		location = locationToStrike.toLowerCase();
 
 		// check for any repetitive input
 		if (selectedLocations.has(location)) {
 			console.log(`You have already picked this location. Miss!
-		  `);
+			  `);
 		}
 		if (
 			location !==
@@ -120,77 +119,92 @@ Invalid character, please start with a letter from a to j followed by a number f
 			!selectedLocations.has(location)
 		) {
 			console.log(`You have missed!
-		  `);
+			  `);
 		}
 		// store the location, the user input
 		i++;
 		selectedLocations.set(location, i);
 
-		let remainingShips = locationArr.length;
 		// // 	//validation
-		if (location === twoUnitShip && !null) {
-			console.log(`Hit. You have sunk the two unit battleship. ${
-				remainingShips - 1
-			} ships remaining.
-			  `);
-			twoUnitShip = null;
-		}
-		console.log(
-			`twoUnitShip===null: ${twoUnitShip === null}
-		  `
-		);
-
-		console.log("before if " + remainingShips);
-		console.log(
-			null === twoUnitShip ||
-				threeUnitShip1 ||
-				threeUnitShip2 ||
-				fourUnitShip ||
-				fiveUnitShip
-		);
-
-		if (
-			null === twoUnitShip ||
-			threeUnitShip1 ||
-			threeUnitShip2 ||
-			fourUnitShip ||
-			fiveUnitShip
-		) {
+		if (location === twoUnitShip && !isShip1Destroyed) {
 			remainingShips--;
+			isShip1Destroyed = true;
+
+			console.log(`Hit. You have sunk the two unit battleship. ${remainingShips} ships remaining.
+				  `);
+		} else if (location === threeUnitShip1 && !isShip2Destroyed) {
+			remainingShips--;
+			isShip2Destroyed = true;
+
+			console.log(
+				`Hit. You have sunk the first three unit battleship. ${remainingShips} ships remaining.
+				    `
+			);
+		} else if (location === threeUnitShip2 && !isShip3Destroyed) {
+			remainingShips--;
+			isShip3Destroyed = true;
+
+			console.log(
+				`Hit. You have sunk the second three unit battleship. ${remainingShips} ships remaining.
+				    `
+			);
+		} else if (location === fourUnitShip && !isShip4Destroyed) {
+			remainingShips--;
+			isShip4Destroyed = true;
+
+			console.log(
+				`Hit. You have sunk the fourth unit battleship. ${remainingShips} ships remaining.
+					`
+			);
+		} else if (location === fiveUnitShip && !isShip5Destroyed) {
+			remainingShips--;
+			isShip5Destroyed = true;
+
+			console.log(
+				`Hit. You have sunk the fifth unit battleship. ${remainingShips} ships remaining.
+					  `
+			);
 		}
-		console.log(remainingShips);
-		// else if (location === ship2 && !isShip2Destroyed) {
-		// 		console.log(
-		// 			`Hit. You have sunk the second battleship. 1 ship remaining.
-		// 	    `
-		// 		);
-		// 		isShip2Destroyed = true;
-		// 	}
-		// 	//end loop when both ships destroyed
-		// 	if (isShip1Destroyed && isShip2Destroyed) {
-		// 		areShipsDestroyed = true;
-		// 	}
+
+		// 	//end while loop when all ships destroyed
+		if (
+			isShip1Destroyed &&
+			isShip2Destroyed &&
+			isShip3Destroyed &&
+			isShip4Destroyed &&
+			isShip5Destroyed
+		) {
+			areShipsDestroyed = true;
+			console.log("all ships destroyed");
+		}
 	}
-	// endGame();
+
+	endGame();
 }
 startGame();
 
-// function endGame() {
-// 	startOrEndGame = rs.keyInYN(
-// 		`
-//                                     Game Over
-//     You have destroyed all battleships. Would you like to play again? Y/N
-//     `,
-// 		{
-// 			limit: /^yn$/gi,
-// 		}
-// 	);
+function endGame() {
+	startOrEndGame = rs.keyInYN(
+		`
+                                    Game Over
+    
+	You have destroyed all battleships. Would you like to play again? Y/N
+`,
+		{
+			limit: /^yn$/gi,
+		}
+	);
 
-// 	if (startOrEndGame) {
-// 		isShip1Destroyed = false;
-// 		isShip2Destroyed = false;
-// 		areShipsDestroyed = false;
-// 		selectedLocations.clear();
-// 		startGame();
-// 	}
-// }
+	if (startOrEndGame) {
+		isShip1Destroyed = false;
+		isShip2Destroyed = false;
+		isShip3Destroyed = false;
+		isShip4Destroyed = false;
+		isShip5Destroyed = false;
+		areShipsDestroyed = false;
+
+		remainingShips = locationArr.length;
+		selectedLocations.clear();
+		startGame();
+	}
+}
