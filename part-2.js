@@ -96,7 +96,7 @@ function startGame() {
 				limit: /^[a-j][1-9]|10$/gi,
 				limitMessage: `
 Invalid character, please start with a letter from a to j followed by a number from 1 to 10 ie'f6'
-			          `,
+				`,
 			}
 		);
 
@@ -119,7 +119,7 @@ Invalid character, please start with a letter from a to j followed by a number f
 			!selectedLocations.has(location)
 		) {
 			console.log(`You have missed!
-			  `);
+			`);
 		}
 		// store the location, the user input
 		i++;
@@ -131,7 +131,7 @@ Invalid character, please start with a letter from a to j followed by a number f
 			isShip1Destroyed = true;
 
 			console.log(`Hit. You have sunk the two unit battleship. ${remainingShips} ships remaining.
-				  `);
+			`);
 		} else if (location === threeUnitShip1 && !isShip2Destroyed) {
 			remainingShips--;
 			isShip2Destroyed = true;
@@ -154,7 +154,7 @@ Invalid character, please start with a letter from a to j followed by a number f
 
 			console.log(
 				`Hit. You have sunk the fourth unit battleship. ${remainingShips} ships remaining.
-					`
+				`
 			);
 		} else if (location === fiveUnitShip && !isShip5Destroyed) {
 			remainingShips--;
@@ -162,7 +162,7 @@ Invalid character, please start with a letter from a to j followed by a number f
 
 			console.log(
 				`Hit. You have sunk the fifth unit battleship. ${remainingShips} ships remaining.
-					  `
+				`
 			);
 		}
 
