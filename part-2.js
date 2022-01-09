@@ -10,7 +10,7 @@ let twoUnitShip = "",
 	threeUnitShip2 = "",
 	fourUnitShip = "",
 	fiveUnitShip = "",
-	location = 0,
+	location = "",
 	i = 0;
 
 let areShipsDestroyed = false,
@@ -81,53 +81,96 @@ function startGame() {
 	// spread ships in random locations
 	assignRandomValues();
 
-	// // run as long as both ships not destroyed
-	// while (!areShipsDestroyed) {
-	// 	const locationToStrike = rs.question(
-	// 		"Enter a location/number between 0 and 9 to strike ie'5': ",
-	// 		{
-	// 			limit: /^[0-9]$/g,
-	// 			limitMessage:
-	// 				"Invalid character, please enter a number between 0 and 9",
-	// 		}
-	// 	);
-	// 	console.log(locationToStrike);
+	console.log(`
+  twoUnitShip: ${twoUnitShip}
+  threeUnitShip1: ${threeUnitShip1}
+  threeUnitShip2: ${threeUnitShip2}
+  fourUnitShip: ${fourUnitShip}
+  fiveUnitShip: ${fiveUnitShip}
+  `);
 
-	// 	location = Number(locationToStrike);
+	// // run as long as ships not destroyed
+	while (!areShipsDestroyed) {
+		const locationToStrike = rs.question(
+			"To strike enter a location ie'f6','b3','c5' or etc... : ",
+			{
+				limit: /^[a-j][1-9]|10$/gi,
+				limitMessage: `
+Invalid character, please start with a letter from a to j followed by a number from 1 to 10 ie'f6'
+		          `,
+			}
+		);
 
-	// 	// check for any repetitive input
-	// 	if (selectedLocations.has(location)) {
-	// 		console.log(`You have already picked this location. Miss!
-	//     `);
-	// 	} else if (
-	// 		location !== ship1 &&
-	// 		location !== ship2 &&
-	// 		!selectedLocations.has(location)
-	// 	) {
-	// 		console.log(`You have missed!
-	//     `);
-	// 	}
-	// 	// store the location the user input
-	// 	i++;
-	// 	selectedLocations.set(location, i);
+		console.log(locationToStrike);
 
-	// 	//validation
-	// 	if (location === ship1 && !isShip1Destroyed) {
-	// 		console.log(`Hit. You have sunk the first battleship. 1 ship remaining.
-	//     `);
-	// 		isShip1Destroyed = true;
-	// 	} else if (location === ship2 && !isShip2Destroyed) {
-	// 		console.log(
-	// 			`Hit. You have sunk the second battleship. 1 ship remaining.
-	//       `
-	// 		);
-	// 		isShip2Destroyed = true;
-	// 	}
-	// 	//end loop when both ships destroyed
-	// 	if (isShip1Destroyed && isShip2Destroyed) {
-	// 		areShipsDestroyed = true;
-	// 	}
-	// }
+		location = locationToStrike;
+
+		// check for any repetitive input
+		if (selectedLocations.has(location)) {
+			console.log(`You have already picked this location. Miss!
+		  `);
+		}
+		if (
+			location !==
+				(twoUnitShip ||
+					threeUnitShip1 ||
+					threeUnitShip2 ||
+					fourUnitShip ||
+					fiveUnitShip) &&
+			!selectedLocations.has(location)
+		) {
+			console.log(`You have missed!
+		  `);
+		}
+		// store the location, the user input
+		i++;
+		selectedLocations.set(location, i);
+
+		let remainingShips = locationArr.length;
+		// // 	//validation
+		if (location === twoUnitShip && !null) {
+			console.log(`Hit. You have sunk the two unit battleship. ${
+				remainingShips - 1
+			} ships remaining.
+			  `);
+			twoUnitShip = null;
+		}
+		console.log(
+			`twoUnitShip===null: ${twoUnitShip === null}
+		  `
+		);
+
+		console.log("before if " + remainingShips);
+		console.log(
+			null === twoUnitShip ||
+				threeUnitShip1 ||
+				threeUnitShip2 ||
+				fourUnitShip ||
+				fiveUnitShip
+		);
+
+		if (
+			null === twoUnitShip ||
+			threeUnitShip1 ||
+			threeUnitShip2 ||
+			fourUnitShip ||
+			fiveUnitShip
+		) {
+			remainingShips--;
+		}
+		console.log(remainingShips);
+		// else if (location === ship2 && !isShip2Destroyed) {
+		// 		console.log(
+		// 			`Hit. You have sunk the second battleship. 1 ship remaining.
+		// 	    `
+		// 		);
+		// 		isShip2Destroyed = true;
+		// 	}
+		// 	//end loop when both ships destroyed
+		// 	if (isShip1Destroyed && isShip2Destroyed) {
+		// 		areShipsDestroyed = true;
+		// 	}
+	}
 	// endGame();
 }
 startGame();
